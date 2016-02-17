@@ -1,14 +1,14 @@
 {
   "name": "react-grid",
   "version": "1.0.0",
-  "description": "react-grid",
+  "description": "template-grid",
   "scripts": {
     "start": "node server.js",
     "lint": "eslint src"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/maksim-chekrishov/react-grid"
+    "url": "https://github.com/maksim-chekrishov/template-grid"
   },
   "keywords": [
     "react",
@@ -24,7 +24,7 @@
   "author": "Maksim Chekrishov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/maksim-chekrishov/react-grid/issues"
+    "url": "https://github.com/maksim-chekrishov/template-grid/issues"
   },
   "devDependencies": {
     "babel-core": "^6.0.20",

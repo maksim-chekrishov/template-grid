@@ -1,0 +1,6 @@
+- var columns = view.options.columns;
+
+div(class=view.buildElementClass('header'))
+    for col in columns
+        div(class=view.buildElementClass('header-cell') + ' ' + view.buildColumnHeaderClasses(col), style=view.buildCellStyle(col))
+            div(class=view.buildElementClass('header-cell-content'))=col.text

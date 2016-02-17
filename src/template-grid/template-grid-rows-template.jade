@@ -1,0 +1,7 @@
+- var columns = view.options.columns;
+
+for rowData in internalData
+    div(class=view.buildElementClass('row'))
+        for col in columns
+            div(class=view.buildElementClass('cell'), style=view.buildCellStyle(col))
+                div(class=view.buildElementClass('cell-content'))=rowData[col.dataField].text
