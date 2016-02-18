@@ -9,52 +9,51 @@ var utils = require('./template-grid-utils');
 var TemplateGridOptions = require('./template-grid-options');
 var _ = require('underscore');
 
-
 function TemplateGridRowsStrategy() {
-  TemplateGridRowsStrategy.super.constructor.apply(this, arguments);
+    TemplateGridRowsStrategy.super.constructor.apply(this, arguments);
 }
 
 utils.extendClass(TemplateGridRowsStrategy, TemplateGridAbstractStrategy);
 
 _.extend(TemplateGridRowsStrategy.prototype, {
 
-  contentTemplate: require('jade!./template-grid-rows-template.jade'),
+    contentTemplate: require('jade!./template-grid-rows-template.jade'),
 
-  /**
-   * Apply sorting
-   *
-   */
-  sortInternalData: function() {
-    var options = this.context.options;
+    /**
+     * Apply sorting
+     *
+     */
+    sortInternalData: function() {
+        var options = this.context.options;
 
-    if (!options.sortable || !options.sortColumn) {
-      return;
+        if (!options.sortable || !options.sortColumn) {
+            return;
+        }
+
+        this.internalData = _.sortBy(this.internalData, function(rowData) {
+            return rowData[options.sortColumn].value;
+        });
+
+        if (options.sortDirection === TemplateGridOptions.SortDirection.DESC) {
+            this.internalData.reverse();
+        }
+    },
+
+    /**
+     * Convert source data to special internal format
+     *
+     */
+    initInternalData: function() {
+        this.internalData = this.context.convertToRowsData();
+    },
+
+    /**
+     * Render grid content
+     *
+     */
+    renderContent: function() {
+        this.context.$el.append(this.contentTemplate({view: this.context, internalData: this.internalData}));
     }
-
-    this.internalData = _.sortBy(this.internalData, options.sortColumn);
-
-    if (options.sortDirection === TemplateGridOptions.SortDirection.DESC) {
-      this.internalData.reverse();
-    }
-
-    this.applySortingState();
-  },
-
-  /**
-   * Convert source data to special internal format
-   *
-   */
-  initInternalData: function() {
-    this.internalData = this.context.convertToRowsData();
-  },
-
-  /**
-   * Render grid content
-   *
-   */
-  renderContent: function() {
-    this.context.$el.append(this.contentTemplate({view: this.context, internalData: this.internalData}));
-  }
 
 });
 

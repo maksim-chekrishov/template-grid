@@ -1,0 +1,12 @@
+.modifications-grid__header-cell._sortable {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.modifications-grid__header-cell._sorted-asc {
+    color: #006600;
+}
+
+.modifications-grid__header-cell._sorted-desc {
+    color: #880000;
+}

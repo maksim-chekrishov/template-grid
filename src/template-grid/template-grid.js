@@ -19,6 +19,7 @@ var _ = require('underscore');
 function TemplateGrid($containerEl, options) {
     this.$el = $containerEl;
     this.options = options;
+    this.columnsIndexedByDataField = options.indexColumnsByDataField();
 
     this.strategy = this.hasGroups()
         ? new GroupsStrategy(this)
@@ -26,7 +27,9 @@ function TemplateGrid($containerEl, options) {
 }
 
 TemplateGrid.ElementStyle = {
+    '_default': '',
     '_root': 'width:100%',
+    'header': 'width:100%',
     'header-cell': 'display:inline-block',
     'header-cell-content': 'text-overflow: ellipsis; overflow: hidden;',
     'cell': 'display:inline-block',
@@ -82,7 +85,7 @@ _.extend(TemplateGrid.prototype, {
             return utils.format('{0} {1}', this.blockClass, this.options.customBlockClass);
         }
         var customBlockClass = this.options.customBlockClass;
-        var classes = utils.format('{0}__{1}', this.blockClass, elementName);
+        var classes = utils.format('js-{1} {0}__{1}', this.blockClass, elementName);
 
         if (customBlockClass) {
             classes += utils.format(' {0}__{1}', customBlockClass, elementName)
@@ -102,11 +105,11 @@ _.extend(TemplateGrid.prototype, {
      */
     buildColumnHeaderClasses: function(columnOptions) {
         var classes = [];
-        var sortingState = this.strategy.sortingState;
+        var options = this.options;
 
         this.options.sortable && columnOptions.sortable && classes.push(TemplateGrid.ColumnHeaderClass.SORTABLE);
-        if (sortingState && sortingState.sortColumn == columnOptions.dataField) {
-            sortingState.sortDirection === TemplateGridOptions.SortDirection.DESC
+        if (options.sortable && options.sortColumn == columnOptions.dataField) {
+            options.sortDirection === TemplateGridOptions.SortDirection.DESC
                 ? classes.push(TemplateGrid.ColumnHeaderClass.SORTED_DESC)
                 : classes.push(TemplateGrid.ColumnHeaderClass.SORTED_ASC);
         }
@@ -149,7 +152,7 @@ _.extend(TemplateGrid.prototype, {
             return TemplateGrid.ElementStyle._root;
         }
         if (!TemplateGrid.ElementStyle.hasOwnProperty(elementName)) {
-            this.warn('getElementStyle: unknown element name');
+            return TemplateGrid.ElementStyle._default;
         }
 
         return TemplateGrid.ElementStyle[elementName];
@@ -228,10 +231,9 @@ _.extend(TemplateGrid.prototype, {
         }
 
         var _this = this;
-        var columnsIndexedByDataField = this.options.indexColumnsByDataField();
 
         return _.map(rawRowsData, function(rawRowData) {
-            return _.mapObject(columnsIndexedByDataField, function(columnOptions, dataField) {
+            return _.mapObject(_this.columnsIndexedByDataField, function(columnOptions, dataField) {
                 var formatter = columnOptions.formatter || _this.defaultColumnFormatter;
                 var value = rawRowData[dataField];
 

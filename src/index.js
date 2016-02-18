@@ -14,11 +14,11 @@ var dataService = {
         return [
             {
                 brandUrl: "Acura",
-                completionTitle: "Techno",
+                completionTitle: "Lada",
                 createdAt: null,
                 drive: 1,
                 finishedAt: null,
-                fuel: "7.9",
+                fuel: "11.2",
                 fuelType: 1,
                 generationUrl: "I",
                 id: 25004,
@@ -34,7 +34,7 @@ var dataService = {
                 modelUrl: "TLX",
                 newUrl: "24DCT-208",
                 power: 208,
-                price: 2199000,
+                price: 1,
                 startedAt: Object,
                 title: "2.4 DCT",
                 updatedAt: Object,
@@ -76,7 +76,7 @@ var dataService = {
             },
             {
                 brandUrl: "Acura",
-                completionTitle: "Techno",
+                completionTitle: "Techno-Huehno",
                 createdAt: null,
                 drive: 1,
                 finishedAt: null,
@@ -96,7 +96,7 @@ var dataService = {
                 modelUrl: "TLX",
                 newUrl: "24DCT-208",
                 power: 178,
-                price: 2000000,
+                price: 33,
                 startedAt: Object,
                 title: "Cucarara",
                 updatedAt: Object,
@@ -114,7 +114,7 @@ initGrid();
 function initGrid() {
     var gridColumns = [
         new GridColumn({text: 'Название', dataField: 'title', width: 100}),
-        new GridColumn({text: 'Комлектация', dataField: 'title'}),
+        new GridColumn({text: 'Комлектация', dataField: 'completionTitle',sortable: false}),
         new GridColumn({text: 'Топливо', dataField: 'fuelType', formatter: fuelTypeFormatter}),
         new GridColumn({text: 'Привод', dataField: 'drive', formatter: driveFormatter}),
         new GridColumn({text: 'Расход топлива л/100км', dataField: 'fuel'}),
