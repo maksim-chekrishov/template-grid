@@ -4,6 +4,8 @@
  * Created by m.chekryshov on 16.02.16.
  */
 
+var _ = require('underscore');
+
 /**
  * Abstract class for grid strategies
  *
@@ -29,7 +31,7 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
    * Header template
    *
    */
-  headerTemplate: require('./template-grid-header-template.jade'),
+  headerTemplate: require('jade!./template-grid-header-template.jade'),
 
   /**
    * Special internal format of data

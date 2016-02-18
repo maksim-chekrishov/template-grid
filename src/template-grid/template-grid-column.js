@@ -4,6 +4,8 @@
  * Created by m.chekryshov on 12.02.16.
  */
 
+var _ = require('underscore');
+
 
 function GridColumn(options) {
   _.extend(this, options);

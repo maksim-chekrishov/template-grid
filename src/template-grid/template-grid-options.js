@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('underscore');
+
 /**
  * Created by m.chekryshov on 15.02.16.
  */

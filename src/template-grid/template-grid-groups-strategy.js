@@ -4,14 +4,15 @@
  * Created by m.chekryshov on 16.02.16.
  */
 
+var _ = require('underscore');
 var TemplateGridAbstractStrategy = require('./template-grid-abstract-strategy');
-var helpers = require('app/modules/helpers');
+var utils = require('./template-grid-utils');
 
 function TemplateGridGroupsStrategy() {
   TemplateGridGroupsStrategy.super.constructor.apply(this, arguments);
 }
 
-helpers.extendClass(TemplateGridGroupsStrategy, TemplateGridAbstractStrategy);
+utils.extendClass(TemplateGridGroupsStrategy, TemplateGridAbstractStrategy);
 
 _.extend(TemplateGridGroupsStrategy.prototype, {
   /**

@@ -5,18 +5,20 @@
  */
 
 var TemplateGridAbstractStrategy = require('./template-grid-abstract-strategy');
-var helpers = require('app/modules/helpers');
+var utils = require('./template-grid-utils');
 var TemplateGridOptions = require('./template-grid-options');
+var _ = require('underscore');
+
 
 function TemplateGridRowsStrategy() {
   TemplateGridRowsStrategy.super.constructor.apply(this, arguments);
 }
 
-helpers.extendClass(TemplateGridRowsStrategy, TemplateGridAbstractStrategy);
+utils.extendClass(TemplateGridRowsStrategy, TemplateGridAbstractStrategy);
 
 _.extend(TemplateGridRowsStrategy.prototype, {
 
-  contentTemplate: require('./template-grid-rows-template.jade'),
+  contentTemplate: require('jade!./template-grid-rows-template.jade'),
 
   /**
    * Apply sorting
