@@ -30,13 +30,7 @@ _.extend(TemplateGridRowsStrategy.prototype, {
             return;
         }
 
-        this.internalData = _.sortBy(this.internalData, function(rowData) {
-            return rowData[options.sortColumn].value;
-        });
-
-        if (options.sortDirection === TemplateGridOptions.SortDirection.DESC) {
-            this.internalData.reverse();
-        }
+        this.internalData = this.sortRows(this.internalData, options.sortColumn, options.sortDirection);
     },
 
     /**
@@ -44,7 +38,7 @@ _.extend(TemplateGridRowsStrategy.prototype, {
      *
      */
     initInternalData: function() {
-        this.internalData = this.context.convertToRowsData();
+        this.internalData = this.convertToInternalRows()
     },
 
     /**

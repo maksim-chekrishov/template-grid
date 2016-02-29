@@ -33,23 +33,23 @@ TemplateGrid.ElementStyle = {
     'header-cell': 'display:inline-block',
     'header-cell-content': 'text-overflow: ellipsis; overflow: hidden;',
     'cell': 'display:inline-block',
-    'cell-content': 'display:inline-block'
+    'cell-content': 'text-overflow: ellipsis; overflow: hidden;'
 }
 
-TemplateGrid.RenderContentMode = {
-    /**
-     * Init/reinit rowsData from source,
-     * apply sorting and render
-     *
-     */
-    FULL: 'full',
-
-    /**
-     * Render by exististing row data
-     *
-     */
-    REFRESH: 'REFRESH'
-}
+//TemplateGrid.RenderContentMode = {
+//    /**
+//     * Init/reinit rowsData from source,
+//     * apply sorting and render
+//     *
+//     */
+//    FULL: 'full',
+//
+//    /**
+//     * Render by exististing row data
+//     *
+//     */
+//    REFRESH: 'REFRESH'
+//}
 
 TemplateGrid.ColumnHeaderClass = {
     SORTABLE: '_sortable',
@@ -182,12 +182,18 @@ _.extend(TemplateGrid.prototype, {
     },
 
     render: function() {
-        this.clear();
         this.initRenderParams();
-        this.strategy.renderHeader();
-        this.renderContent(TemplateGrid.RenderContentMode.FULL);
+        this.strategy.initInternalData();
+        this.strategy.sortInternalData();
 
+        this._render();
         return this;
+    },
+
+    _render: function() {
+        this.clear();
+        this.strategy.renderHeader();
+        this.strategy.renderContent();
     },
 
     hasGroups: function() {
@@ -216,53 +222,26 @@ _.extend(TemplateGrid.prototype, {
             : this.options.noDataText;
     },
 
-    /**
-     * Convert raw data from source to special format for rows
-     *
-     * @param {Array} [rawRowsData = source]
-     * @returns {*}
-     */
-    convertToRowsData: function(rawRowsDataParam) {
 
-        var rawRowsData = rawRowsDataParam || this.options.source;
 
-        if (!rawRowsData || !rawRowsData.length) {
-            return [];
-        }
 
-        var _this = this;
-
-        return _.map(rawRowsData, function(rawRowData) {
-            return _.mapObject(_this.columnsIndexedByDataField, function(columnOptions, dataField) {
-                var formatter = columnOptions.formatter || _this.defaultColumnFormatter;
-                var value = rawRowData[dataField];
-
-                return new TemplateGridCell({
-                    value: value,
-                    dataField: dataField,
-                    text: formatter(value, rawRowData)
-                });
-            });
-        });
-    },
-
-    /**
-     * Render content in supplied mode
-     *
-     * @param {TemplateGrid.RenderContentMode} renderMode
-     */
-    renderContent: function(renderMode) {
-        if (renderMode === TemplateGrid.RenderContentMode.FULL) {
-            this.strategy.initInternalData();
-            this.strategy.sortInternalData();
-            this.strategy.renderContent();
-        } else if (TemplateGrid.RenderContentMode.REFRESH) {
-            this.strategy.renderContent();
-        } else {
-            this.warn('Incorrect mode for render content method');
-            return;
-        }
-    }
+//    /**
+//     * Render content in supplied mode
+//     *
+//     * @param {TemplateGrid.RenderContentMode} renderMode
+//     */
+//    renderContent: function(renderMode) {
+//        if (renderMode === TemplateGrid.RenderContentMode.FULL) {
+//            this.strategy.initInternalData();
+//            this.strategy.sortInternalData();
+//            this.strategy.renderContent();
+//        } else if (TemplateGrid.RenderContentMode.REFRESH) {
+//            this.strategy.renderContent();
+//        } else {
+//            this.warn('Incorrect mode for render content method');
+//            return;
+//        }
+//    }
 });
 
 module.exports = TemplateGrid;

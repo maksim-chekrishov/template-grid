@@ -7,6 +7,8 @@
 var _ = require('underscore');
 var $ = require('jquery');
 var GridOptions = require('./template-grid-options');
+var TemplateGridCell = require('./template-grid-cell');
+
 /**
  * Abstract class for grid strategies
  *
@@ -72,6 +74,50 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
     },
 
     /**
+     * Sort rows
+     *
+     * @param {Array.<Object.<string,GridCell>>} rowsData
+     * @param {string} sortColumn
+     * @param {string} sortDirection
+     * @returns {Object.<string,GridCell>} sorted rowsData
+     */
+    sortRows: function(rowsData, sortColumn, sortDirection) {
+        var sortedRows = _.sortBy(rowsData, function(row) {
+            return row[sortColumn].value;
+        });
+        if (sortDirection === GridOptions.SortDirection.DESC) {
+            sortedRows.reverse();
+        }
+
+        return sortedRows;
+    },
+
+    convertToInternalRows: function(rawRowsDataParam) {
+        var rawRowsData = rawRowsDataParam || this.context.options.source;
+
+        if (!rawRowsData || !rawRowsData.length) {
+            return [];
+        }
+
+        return _.map(rawRowsData, this.convertToInternalRow.bind(this));
+    },
+
+    convertToInternalRow: function(rawRowData) {
+        var _this = this;
+
+        return _.mapObject(_this.context.columnsIndexedByDataField, function(columnOptions, dataField) {
+            var formatter = columnOptions.formatter || _this.context.defaultColumnFormatter;
+            var value = rawRowData[dataField];
+
+            return new TemplateGridCell({
+                value: value,
+                dataField: dataField,
+                text: formatter(value, rawRowData)
+            });
+        });
+    },
+
+    /**
      * Get element dataField
      *
      * @param {dom element} el
@@ -108,9 +154,7 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
         }
 
         this.sortInternalData();
-        this.context.clear();
-        this.renderHeader();
-        this.renderContent();
+        this.context._render();
     }
 });
 
