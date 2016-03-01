@@ -30,6 +30,8 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
      */
     headerTemplate: require('jade!./template-grid-header-template.jade'),
 
+    contentTemplate: require('jade!./template-grid-rows-template.jade'),
+
     /**
      * Special internal format of data
      *
@@ -48,17 +50,12 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
      */
     initInternalData: virtualMethod,
 
-    /**
-     * Render grid content
-     *
-     */
-    renderContent: virtualMethod,
 
     /**
      * Render grid header
      */
     renderHeader: function() {
-        this.context.$el.append(this.headerTemplate({view: this.context}));
+        this.context.$el.append(this.headerTemplate({grid: this.context}));
         this.bindHeaderActions();
     },
 
@@ -137,7 +134,6 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
         var options = this.context.options;
 
         if (!options.sortable || !this.context.columnsIndexedByDataField[dataField].sortable) {
-            this.context.warn('onHeaderCellClick: sortable mode is disabled');
             return;
         }
 
@@ -155,6 +151,17 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
 
         this.sortInternalData();
         this.context._render();
+    },
+
+    /**
+     * Render grid content
+     *
+     */
+    renderContent: function() {
+        this.context.$el.append(this.contentTemplate({
+            grid: this.context,
+            rowsData: this.internalData
+        }));
     }
 });
 

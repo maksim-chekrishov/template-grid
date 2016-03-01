@@ -16,9 +16,6 @@ function TemplateGridRowsStrategy() {
 utils.extendClass(TemplateGridRowsStrategy, TemplateGridAbstractStrategy);
 
 _.extend(TemplateGridRowsStrategy.prototype, {
-
-    contentTemplate: require('jade!./template-grid-rows-template.jade'),
-
     /**
      * Apply sorting
      *
@@ -39,16 +36,7 @@ _.extend(TemplateGridRowsStrategy.prototype, {
      */
     initInternalData: function() {
         this.internalData = this.convertToInternalRows()
-    },
-
-    /**
-     * Render grid content
-     *
-     */
-    renderContent: function() {
-        this.context.$el.append(this.contentTemplate({view: this.context, internalData: this.internalData}));
     }
-
 });
 
 module.exports = TemplateGridRowsStrategy;

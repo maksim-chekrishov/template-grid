@@ -7,7 +7,7 @@
 
 var _ = require('underscore');
 
-function GridGroup() {
+function GridGroup(options) {
     _.extend(this, options);
 };
 
@@ -22,7 +22,7 @@ _.extend(GridGroup.prototype, {
      * RowsData
      *
      */
-    rowsData: null
+    rows: null
 });
 
 module.exports = GridGroup;

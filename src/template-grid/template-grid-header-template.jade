@@ -1,9 +1,10 @@
-- var columns = view.options.columns;
+- var columns = grid.options.columns;
 
-div(class=view.buildElementClass('header'), style= view.getElementStyle('header'))
-    for col in columns
-        div(class=view.buildElementClass('header-cell') + ' ' + view.buildColumnHeaderClasses(col),
-            style=view.buildCellStyle(col) + ' ' + view.getElementStyle('header-cell'),
-            data-datafield=col.dataField)
-            div(class=view.buildElementClass('header-cell-content'),
-                style=view.getElementStyle('header-cell-content'))=col.text
+block rows
+    div(class=grid.buildElementClass('header'), style= grid.getElementStyle('header'))
+        for col in columns
+            div(class=grid.buildElementClass('header-cell') + ' ' + grid.buildColumnHeaderClasses(col),
+                style=grid.buildCellStyle(col) + ' ' + grid.getElementStyle('header-cell'),
+                data-datafield=col.dataField)
+                div(class=grid.buildElementClass('header-cell-content'),
+                    style=grid.getElementStyle('header-cell-content'))=col.text

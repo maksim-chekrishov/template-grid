@@ -14,7 +14,7 @@ var dataService = {
         return [
             {
                 brandUrl: "Acura",
-                completionTitle: "Lada",
+                completionTitle: "A",
                 createdAt: null,
                 drive: 1,
                 finishedAt: null,
@@ -45,7 +45,7 @@ var dataService = {
             },
             {
                 brandUrl: "Acura",
-                completionTitle: "Techno",
+                completionTitle: "B",
                 createdAt: null,
                 drive: 1,
                 finishedAt: null,
@@ -76,7 +76,7 @@ var dataService = {
             },
             {
                 brandUrl: "Acura",
-                completionTitle: "Techno-Huehno",
+                completionTitle: "C",
                 createdAt: null,
                 drive: 1,
                 finishedAt: null,
@@ -105,6 +105,37 @@ var dataService = {
                 volume: "2356.0",
                 warranty: null
             },
+            {
+                brandUrl: "Acura23",
+                completionTitle: "D",
+                createdAt: null,
+                drive: 1,
+                finishedAt: null,
+                fuel: "7.9",
+                fuelType: 1,
+                generationUrl: "I",
+                id: 25005,
+                isArchive: false,
+                isAt: true,
+                isCompletionOptions: false,
+                isOptionsAvaliable: false,
+                isPriceUndeclared: false,
+                isPublished: true,
+                modelSubGenerationId: 3,
+                modelSubGenerationNewUrl: "ia",
+                modelSubUrl: "sedan4d",
+                modelUrl: "TLX",
+                newUrl: "24DCT-208",
+                power: 178,
+                price: 33,
+                startedAt: Object,
+                title: "aCucarara",
+                updatedAt: Object,
+                url: "24dct",
+                usage: 20,
+                volume: "2356.0",
+                warranty: null
+            },
         ]
     }
 };
@@ -114,8 +145,8 @@ initGrid();
 function initGrid() {
     var gridColumns = [
         new GridColumn({text: 'Название', dataField: 'title', width: 100}),
-        new GridColumn({text: 'Комлектация', dataField: 'completionTitle',sortable: false}),
-        new GridColumn({text: 'Топливо', dataField: 'fuelType', formatter: fuelTypeFormatter}),
+        new GridColumn({text: 'Комлектация', dataField: 'completionTitle'}),
+        new GridColumn({text: 'Топливо', dataField: 'fuelType',sortable: false, formatter: fuelTypeFormatter}),
         new GridColumn({text: 'Привод', dataField: 'drive', formatter: driveFormatter}),
         new GridColumn({text: 'Расход топлива л/100км', dataField: 'fuel'}),
         new GridColumn({text: 'Цена, руб.', dataField: 'price'})
@@ -124,7 +155,8 @@ function initGrid() {
     var gridOptions = new GridOptions({
         source: dataService.getFromGlobal('catalogDetails.modifications'),
         columns: gridColumns,
-        customBlockClass: 'modifications-grid'
+        customBlockClass: 'modifications-grid',
+        group:['drive','fuel','price']
     });
 
     var modificationsGrid = new TemplateGrid($('#grid'), gridOptions);

@@ -49,18 +49,20 @@ _.extend(GridOptions.prototype, {
   sortDirection: GridOptions.SortDirection.ASC,
 
   /**
-   * DataField name or function(rawRowData)
+   * Array with data field(s) for grouping
    *
-   * @type {string|Function}
+   * @type {Array.<string>}
    */
   group: null,
 
   /**
-   * DataField name or function(groupsRows)
+   * Builder for groupSummary row, data for header of group
+   * example:
+   * function(groupsRows){ return singleSummaryRow; }
    *
-   * @type {string|Function}
+   * @type {Function}
    */
-  groupSummaryBuilder: null,
+  groupSummaryRowBuilder: null,
 
   /**
    * Columns options
