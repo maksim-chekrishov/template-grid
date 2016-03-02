@@ -15,41 +15,32 @@ var _ = require('underscore');
  *
  * @param {jQuery} $containerEl
  * @param {GridOptions} options
+ * @param {GridStrategiesFactory} strategiesFactory
  */
-function TemplateGrid($containerEl, options) {
+function TemplateGrid($containerEl, options, components) {
     this.$el = $containerEl;
     this.options = options;
     this.columnsIndexedByDataField = options.indexColumnsByDataField();
 
+//    var RowsStrategy = strategiesFactory('rows');
+//    var GroupsStrategy = strategiesFactory('groups');
+
     this.strategy = this.hasGroups()
         ? new GroupsStrategy(this)
-        : new RowsStrategy(this)
+        : new RowsStrategy(this);
 }
 
 TemplateGrid.ElementStyle = {
     '_default': '',
     '_root': 'width:100%',
     'header': 'width:100%',
-    'header-cell': 'display:inline-block',
     'header-cell-content': 'text-overflow: ellipsis; overflow: hidden;',
+    'header-cell': 'display:inline-block',
     'cell': 'display:inline-block',
-    'cell-content': 'text-overflow: ellipsis; overflow: hidden;'
+    'group-header-cell': 'display:inline-block',
+    'cell-content': 'text-overflow: ellipsis; overflow: hidden;',
+    'group-header-content': 'text-overflow: ellipsis; overflow: hidden;'
 }
-
-//TemplateGrid.RenderContentMode = {
-//    /**
-//     * Init/reinit rowsData from source,
-//     * apply sorting and render
-//     *
-//     */
-//    FULL: 'full',
-//
-//    /**
-//     * Render by exististing row data
-//     *
-//     */
-//    REFRESH: 'REFRESH'
-//}
 
 TemplateGrid.ColumnHeaderClass = {
     SORTABLE: '_sortable',
@@ -61,10 +52,6 @@ _.extend(TemplateGrid.prototype, {
     MIN_COLUMN_WIDTH: 10,
 
     cellStyleCache: null,
-
-    groupsData: null,
-
-    rowsData: null,
 
     blockClass: 'template-grid',
 
@@ -174,7 +161,7 @@ _.extend(TemplateGrid.prototype, {
 
         var availableSpace = containerWidth - columnsWidth;
 
-        this.defaultColumnWidth = Math.round(availableSpace / columnsWithoutWidthLength);
+        this.defaultColumnWidth = Math.floor(availableSpace / columnsWithoutWidthLength);
 
         if (this.defaultColumnWidth < this.MIN_COLUMN_WIDTH) {
             this.defaultColumnWidth = this.MIN_COLUMN_WIDTH;
@@ -212,7 +199,7 @@ _.extend(TemplateGrid.prototype, {
      * will be applied for columns without custom formatter
      *
      * @param {*} cellData
-     * @param {Object} rawRowData
+     * @param {Object} [rawRowData]
      * @returns {string}
      */
     defaultColumnFormatter: function(cellData, rawRowData) {
@@ -220,28 +207,7 @@ _.extend(TemplateGrid.prototype, {
         return str.length
             ? str
             : this.options.noDataText;
-    },
-
-
-
-
-//    /**
-//     * Render content in supplied mode
-//     *
-//     * @param {TemplateGrid.RenderContentMode} renderMode
-//     */
-//    renderContent: function(renderMode) {
-//        if (renderMode === TemplateGrid.RenderContentMode.FULL) {
-//            this.strategy.initInternalData();
-//            this.strategy.sortInternalData();
-//            this.strategy.renderContent();
-//        } else if (TemplateGrid.RenderContentMode.REFRESH) {
-//            this.strategy.renderContent();
-//        } else {
-//            this.warn('Incorrect mode for render content method');
-//            return;
-//        }
-//    }
+    }
 });
 
 module.exports = TemplateGrid;

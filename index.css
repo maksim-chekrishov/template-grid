@@ -10,3 +10,7 @@
 .modifications-grid__header-cell._sorted-desc {
     color: #880000;
 }
+
+.modifications-grid__group-header {
+    background-color: #666666;
+}
