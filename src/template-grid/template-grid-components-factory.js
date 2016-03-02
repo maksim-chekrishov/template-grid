@@ -9,20 +9,29 @@ function ComponentsFactory(options) {
     _.extend(this, options);
 };
 
-_.extend(GridGroup.prototype, {
+_.extend(ComponentsFactory.prototype, {
     /**
-     * Summary rows data can be calculated for each groups
+     * Templates
      *
      */
-    templatesByName: {
+    templateByName: {
         header: require('jade!./template-grid-header-template.jade'),
+        rows: require('jade!./template-grid-rows-template.jade'),
+        groupHeader: require('jade!./template-grid-group-header-template.jade')
     },
 
-    /**
-     * RowsData
-     *
-     */
-    rows: null
+    strategyByName: {
+        groups: require('./template-grid-groups-strategy'),
+        rows: require('./template-grid-rows-strategy')
+    },
+
+    resolveTemplate: function(name) {
+        return this.templateByName[name];
+    },
+
+    resolveStrategy: function(name) {
+        return this.strategyByName[name];
+    }
 });
 
-module.exports = GridGroup;
+module.exports = ComponentsFactory;

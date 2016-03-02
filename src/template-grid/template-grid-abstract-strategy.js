@@ -15,8 +15,12 @@ var TemplateGridCell = require('./template-grid-cell');
  * @param {TemplateGrid} context - template grid instance
  * @constructor
  */
-function TemplateGridAbstractStrategy(context) {
+function TemplateGridAbstractStrategy(context, gridComponentsFactory) {
     this.context = context;
+    this.gridComponentsFactory = gridComponentsFactory || this.gridComponentsFactory;
+
+    this.rowsTemplate = gridComponentsFactory.resolveTemplate('rows');
+    this.headerTemplate = gridComponentsFactory.resolveTemplate('header');
 }
 
 function virtualMethod() {
@@ -28,9 +32,13 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
      * Header template
      *
      */
-    headerTemplate: require('jade!./template-grid-header-template.jade'),
+    headerTemplate: null,
 
-    contentTemplate: require('jade!./template-grid-rows-template.jade'),
+    /**
+     * Rows template
+     *
+     */
+    rowsTemplate: null,
 
     /**
      * Special internal format of data
@@ -49,7 +57,6 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
      *
      */
     initInternalData: virtualMethod,
-
 
     /**
      * Render grid header
@@ -158,7 +165,7 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
      *
      */
     renderContent: function() {
-        this.context.$el.append(this.contentTemplate({
+        this.context.$el.append(this.rowsTemplate({
             grid: this.context,
             rowsData: this.internalData
         }));

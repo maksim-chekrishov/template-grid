@@ -9,25 +9,27 @@ var GroupsStrategy = require('./template-grid-groups-strategy');
 var TemplateGridCell = require('./template-grid-cell');
 var TemplateGridOptions = require('./template-grid-options');
 var _ = require('underscore');
+var DefaultComponentsFactory = require('./template-grid-components-factory');
 
 /**
  * Grid constructor
  *
  * @param {jQuery} $containerEl
  * @param {GridOptions} options
- * @param {GridStrategiesFactory} strategiesFactory
+ * @param {GridComponentsFactory} gridComponentsFactory
  */
-function TemplateGrid($containerEl, options, components) {
+function TemplateGrid($containerEl, options, gridComponentsFactory) {
     this.$el = $containerEl;
     this.options = options;
     this.columnsIndexedByDataField = options.indexColumnsByDataField();
+    this.gridComponentsFactory = gridComponentsFactory || this.gridComponentsFactory;
 
-//    var RowsStrategy = strategiesFactory('rows');
-//    var GroupsStrategy = strategiesFactory('groups');
+    var RowsStrategy = this.gridComponentsFactory.resolveStrategy('rows');
+    var GroupsStrategy = this.gridComponentsFactory.resolveStrategy('groups');
 
     this.strategy = this.hasGroups()
-        ? new GroupsStrategy(this)
-        : new RowsStrategy(this);
+        ? new GroupsStrategy(this, this.gridComponentsFactory)
+        : new RowsStrategy(this, this.gridComponentsFactory);
 }
 
 TemplateGrid.ElementStyle = {
@@ -54,6 +56,8 @@ _.extend(TemplateGrid.prototype, {
     cellStyleCache: null,
 
     blockClass: 'template-grid',
+
+    gridComponentsFactory: new DefaultComponentsFactory(),
 
     /**
      * Required for rendering

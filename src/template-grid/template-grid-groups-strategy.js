@@ -13,13 +13,15 @@ var $ = require('jquery');
 
 function TemplateGridGroupsStrategy() {
     TemplateGridGroupsStrategy.super.constructor.apply(this, arguments);
+
+    this.groupHeaderTemplate = this.gridComponentsFactory.resolveTemplate('groupHeader');
 }
 
 utils.extendClass(TemplateGridGroupsStrategy, TemplateGridAbstractStrategy);
 
 _.extend(TemplateGridGroupsStrategy.prototype, {
 
-    groupHeaderTemplate: require('jade!./template-grid-group-header-template.jade'),
+    groupHeaderTemplate: null,
 
     /**
      * Convert source data to special internal format
@@ -89,11 +91,13 @@ _.extend(TemplateGridGroupsStrategy.prototype, {
         var $fragment = $(document.createDocumentFragment());
 
         _.each(this.internalData, function(groupData) {
+
             var $header = $(_this.groupHeaderTemplate({
                 grid: _this.context,
                 groupData: groupData
             }));
-            var $rows = $(_this.contentTemplate({
+
+            var $rows = $(_this.rowsTemplate({
                 grid: _this.context,
                 rowsData: groupData.rows
             }));
