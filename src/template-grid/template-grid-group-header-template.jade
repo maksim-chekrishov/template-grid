@@ -1,5 +1,0 @@
-div(class=grid.buildElementClass('group-header'), style=grid.getElementStyle('group-header'))
-    for col in  grid.options.columns
-        div(class=grid.buildElementClass('group-header-cell'), style=grid.buildCellStyle(col) + ' ' + grid.getElementStyle('group-header-cell'))
-            div(class=grid.buildElementClass('group-header-content'), style=grid.getElementStyle('group-header-content'))
-                = grid.options.group.indexOf(col.dataField) !== -1 ? groupData.rows[0][col.dataField].text : ''

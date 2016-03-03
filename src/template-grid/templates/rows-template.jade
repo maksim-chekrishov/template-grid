@@ -1,0 +1,9 @@
+- var columns = grid.options.columns;
+- var buildElementClass = grid.strategy.buildElementClass.bind(grid.strategy);
+- var getElementStyle = grid.strategy.getElementStyle.bind(grid.strategy);
+
+for rowData in rowsData
+    div(class=buildElementClass('row'), style=getElementStyle('row'))
+        for col in columns
+            div(class=buildElementClass('cell'), style=grid.strategy.buildCellStyle(col)+ ' ' + getElementStyle('cell'))
+                div(class=buildElementClass('cell-content') , style=getElementStyle('cell-content'))=rowData[col.dataField].text

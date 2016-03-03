@@ -9,6 +9,7 @@ var $ = require('jquery');
 var GridOptions = require('./template-grid-options');
 var TemplateGridCell = require('./template-grid-cell');
 var TemplateGridOptions = require('./template-grid-options');
+var utils = require('./template-grid-utils');
 
 /**
  * Abstract class for grid strategies
@@ -33,7 +34,14 @@ AbstractStrategy.ColumnCellClass = {
     SORTED_ASC: '_sorted-asc',
     SORTED_DESC: '_sorted-desc'
 }
+
 _.extend(AbstractStrategy.prototype, {
+    /**
+     * Class for root element
+     *
+     */
+    blockClass: 'template-grid',
+
     /**
      * Header template
      *
@@ -53,6 +61,26 @@ _.extend(AbstractStrategy.prototype, {
     internalData: null,
 
     /**
+     * Required for rendering
+     *
+     */
+    defaultColumnWidth: null,
+
+    cellStyleCache: null,
+
+    elementsStyle: {
+        '_default': '',
+        '_root': 'width:100%',
+        'header': 'width:100%',
+        'header-cell-content': 'text-overflow: ellipsis; overflow: hidden;',
+        'header-cell': 'display:inline-block',
+        'cell': 'display:inline-block',
+        'group-header-cell': 'display:inline-block',
+        'cell-content': 'text-overflow: ellipsis; overflow: hidden;',
+        'group-header-content': 'text-overflow: ellipsis; overflow: hidden;'
+    },
+
+    /**
      * Apply sorting
      *
      */
@@ -65,16 +93,57 @@ _.extend(AbstractStrategy.prototype, {
     initInternalData: virtualMethod,
 
     /**
+     * Calculate params required for rendering
+     */
+    initRenderParams: function() {
+        var containerWidth = this.context.$el.width();
+        var columnsWidth = 0;
+        var columnsWithoutWidthLength = 0;
+
+        _.each(this.context.options.columns, function(col, i) {
+            col.width
+                ? columnsWidth += col.width
+                : columnsWithoutWidthLength++;
+        });
+
+        var availableSpace = containerWidth - columnsWidth;
+
+        this.defaultColumnWidth = Math.floor(availableSpace / columnsWithoutWidthLength);
+
+        if (this.defaultColumnWidth < this.MIN_COLUMN_WIDTH) {
+            this.defaultColumnWidth = this.MIN_COLUMN_WIDTH;
+        }
+    },
+
+    /**
+     * Get basic styles for element.
+     * This styles make grid look like table
+     *
+     * @param {string} [elementName = '_root']
+     * @returns {string}
+     */
+    getElementStyle: function(elementName) {
+        if (!elementName) {
+            return this.elementsStyle._root;
+        }
+        if (!this.elementsStyle.hasOwnProperty(elementName)) {
+            return this.elementsStyle._default;
+        }
+
+        return this.elementsStyle[elementName];
+    },
+
+    /**
      * Build column cell classes
      *
-     * @param {GridColumn} columnOptions
+     * @param {GridColumn} column
      */
-    buildColumnCellClass: function(columnOptions) {
+    buildColumnCellClass: function(column) {
         var classes = [];
         var options = this.context.options;
 
-        options.sortable && columnOptions.sortable && classes.push(AbstractStrategy.ColumnCellClass.SORTABLE);
-        if (options.sortable && options.sortColumn == columnOptions.dataField) {
+        options.sortable && column.sortable && classes.push(AbstractStrategy.ColumnCellClass.SORTABLE);
+        if (options.sortable && options.sortColumn == column.dataField) {
             options.sortDirection === TemplateGridOptions.SortDirection.DESC
                 ? classes.push(AbstractStrategy.ColumnCellClass.SORTED_DESC)
                 : classes.push(AbstractStrategy.ColumnCellClass.SORTED_ASC);
@@ -83,7 +152,47 @@ _.extend(AbstractStrategy.prototype, {
         return classes.join(' ');
     },
 
+    /**
+     * Build cell style
+     *
+     * @param column
+     * @returns {*}
+     */
+    buildCellStyle: function(column) {
+        this.cellStyleCache = this.cellStyleCache || {};
 
+        if (this.cellStyleCache.hasOwnProperty(column.dataField)) {
+            return this.cellStyleCache[column.dataField];
+        }
+
+        var style = utils.format('width: {0}px; text-align: {1};',
+            column.width || this.defaultColumnWidth,
+            column.textAlign);
+
+        this.cellStyleCache[column.dataField] = style;
+
+        return style;
+    },
+
+    /**
+     * Add blocks (default and custom) prefixes for element
+     *
+     * @param {string} [elementName] - optional, returns root blocks classes when empty
+     * @returns {string}
+     */
+    buildElementClass: function(elementName) {
+        if (!elementName) {
+            return utils.format('{0} {1}', this.blockClass, this.context.options.customBlockClass);
+        }
+        var customBlockClass = this.context.options.customBlockClass;
+        var classes = utils.format('js-{1} {0}__{1}', this.blockClass, elementName);
+
+        if (customBlockClass) {
+            classes += utils.format(' {0}__{1}', customBlockClass, elementName)
+        }
+
+        return classes;
+    },
 
     /**
      * Render grid header

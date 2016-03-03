@@ -15,9 +15,9 @@ _.extend(ComponentsFactory.prototype, {
      *
      */
     templateByName: {
-        header: require('jade!./template-grid-header-template.jade'),
-        rows: require('jade!./template-grid-rows-template.jade'),
-        groupHeader: require('jade!./template-grid-group-header-template.jade')
+        header: require('jade!./templates/header-template.jade'),
+        rows: require('jade!./templates/rows-template.jade'),
+        groupHeader: require('jade!./templates/group-header-template.jade')
     },
 
     strategyByName: {
@@ -29,8 +29,16 @@ _.extend(ComponentsFactory.prototype, {
         return this.templateByName[name];
     },
 
-    resolveStrategy: function(name) {
-        return this.strategyByName[name];
+    /**
+     * Resolve strategy for grid instance
+     *
+     * @param {TemplateGrid} gridInstance
+     * @returns {*}
+     */
+    resolveStrategy: function(gridInstance) {
+        return gridInstance.hasGroups()
+            ? this.strategyByName['groups']
+            : this.strategyByName['rows'];
     }
 });
 
