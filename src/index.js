@@ -2,12 +2,10 @@
 
 var TemplateGrid = require('./template-grid/template-grid');
 var $ = require('jquery');
+require('./template-grid/template-grid-plugin')($);
 
 var GridColumn = require('./template-grid/template-grid-column');
 var GridOptions = require('./template-grid/template-grid-options');
-
-var DRIVE = ['передний', 'задний', 'полный'];
-var FUEL = ['бензин', 'дизель'];
 
 var dataService = {
     getFromGlobal: function() {
@@ -140,13 +138,16 @@ var dataService = {
     }
 };
 
+var DRIVE = ['передний', 'задний', 'полный'];
+var FUEL = ['бензин', 'дизель'];
+
 initGrid();
 
 function initGrid() {
     var gridColumns = [
         new GridColumn({text: 'Название', dataField: 'title', width: 100}),
         new GridColumn({text: 'Комлектация', dataField: 'completionTitle'}),
-        new GridColumn({text: 'Топливо', dataField: 'fuelType',sortable: false, formatter: fuelTypeFormatter}),
+        new GridColumn({text: 'Топливо', dataField: 'fuelType', sortable: false, formatter: fuelTypeFormatter}),
         new GridColumn({text: 'Привод', dataField: 'drive', formatter: driveFormatter}),
         new GridColumn({text: 'Расход топлива л/100км', dataField: 'fuel'}),
         new GridColumn({text: 'Цена, руб.', dataField: 'price'})
@@ -156,10 +157,12 @@ function initGrid() {
         source: dataService.getFromGlobal('catalogDetails.modifications'),
         columns: gridColumns,
         customBlockClass: 'modifications-grid',
-        group:['drive','fuel','price']
+        group: ['drive', 'fuel', 'price']
     });
 
-    var modificationsGrid = new TemplateGrid($('#grid'), gridOptions);
+    var modificationsGrid = $('#grid')
+        .templateGrid(gridOptions)
+        .templateGrid();
 
     modificationsGrid.render();
 }
