@@ -5,5 +5,5 @@
 for rowData in rowsData
     div(class=buildElementClass('row'), style=getElementStyle('row'))
         for col in columns
-            div(class=buildElementClass('cell'), style=grid.strategy.buildCellStyle(col)+ ' ' + getElementStyle('cell'))
-                div(class=buildElementClass('cell-content') , style=getElementStyle('cell-content'))=rowData[col.dataField].text
+            div(class=buildElementClass('cell', col), style=grid.strategy.buildCellStyle(col) + ' ' + getElementStyle('cell'))
+                div(class=buildElementClass('cell-content', col) , style=getElementStyle('cell-content'))=rowData[col.dataField].text

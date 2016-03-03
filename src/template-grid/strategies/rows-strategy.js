@@ -6,7 +6,7 @@
 
 var TemplateGridAbstractStrategy = require('./abstract-strategy');
 var utils = require('../utils');
-var TemplateGridOptions = require('../data-objects/template-grid-options');
+var TemplateGridOptions = require('../data-objects/grid-options');
 var _ = require('underscore');
 
 /**

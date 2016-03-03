@@ -4,9 +4,9 @@
  * Created by m.chekryshov on 12.02.16.
  */
 var utils = require('./utils');
-var TemplateGridOptions = require('./data-objects/template-grid-options');
+var TemplateGridOptions = require('./data-objects/grid-options');
 var _ = require('underscore');
-var DefaultComponentsFactory = require('./template-grid-components-factory');
+var DefaultComponentsFactory = require('./components-factory');
 
 /**
  * Grid constructor

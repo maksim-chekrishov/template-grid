@@ -7,8 +7,8 @@
 var _ = require('underscore');
 var TemplateGridAbstractStrategy = require('./abstract-strategy');
 var utils = require('../utils');
-var GridGroup = require('../data-objects/template-grid-group');
-var GridOptions = require('../data-objects/template-grid-options');
+var GridGroup = require('../data-objects/group');
+var GridOptions = require('../data-objects/grid-options');
 var $ = require('jquery');
 
 /**

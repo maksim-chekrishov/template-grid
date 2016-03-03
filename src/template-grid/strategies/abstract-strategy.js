@@ -6,8 +6,8 @@
 
 var _ = require('underscore');
 var $ = require('jquery');
-var GridOptions = require('../data-objects/template-grid-options');
-var TemplateGridCell = require('../data-objects/template-grid-cell');
+var GridOptions = require('../data-objects/grid-options');
+var TemplateGridCell = require('../data-objects/cell');
 var utils = require('../utils');
 
 /**
@@ -122,15 +122,18 @@ _.extend(AbstractStrategy.prototype, {
      * @param {string} [elementName = '_root']
      * @returns {string}
      */
-    getElementStyle: function(elementName) {
+    getElementStyle: function(elementName, column) {
+        var elementClass;
+
         if (!elementName) {
-            return this.elementsStyle._root;
-        }
-        if (!this.elementsStyle.hasOwnProperty(elementName)) {
-            return this.elementsStyle._default;
+            elementClass = this.elementsStyle._root;
+        } else if (!this.elementsStyle.hasOwnProperty(elementName)) {
+            elementClass = this.elementsStyle._default;
+        } else {
+            elementClass = this.elementsStyle[elementName];
         }
 
-        return this.elementsStyle[elementName];
+        return elementClass;
     },
 
     /**
@@ -138,7 +141,7 @@ _.extend(AbstractStrategy.prototype, {
      *
      * @param {GridColumn} column
      */
-    buildColumnCellClass: function(column) {
+    _buildColumnCellClass: function(column) {
         var classes = [];
         var options = this.context.options;
 
@@ -178,20 +181,23 @@ _.extend(AbstractStrategy.prototype, {
      * Add blocks (default and custom) prefixes for element
      *
      * @param {string} [elementName] - optional, returns root blocks classes when empty
+     * @param {string} [column]
      * @returns {string}
      */
-    buildElementClass: function(elementName) {
+    buildElementClass: function(elementName, column) {
+        var classes,
+            customBlockClass = this.context.options.customBlockClass;
+
         if (!elementName) {
-            return utils.format('{0} {1}', this.blockClass, this.context.options.customBlockClass);
+            classes = utils.format('{0} {1}', this.blockClass, this.context.options.customBlockClass);
+        } else {
+            classes = utils.format('js-{1} {0}__{1}', this.blockClass, elementName);
+            if (customBlockClass) {
+                classes += utils.format(' {0}__{1}', customBlockClass, elementName)
+            }
         }
-        var customBlockClass = this.context.options.customBlockClass;
-        var classes = utils.format('js-{1} {0}__{1}', this.blockClass, elementName);
 
-        if (customBlockClass) {
-            classes += utils.format(' {0}__{1}', customBlockClass, elementName)
-        }
-
-        return classes;
+        return classes + (column ? ' ' + this._buildColumnCellClass(column) : '' );
     },
 
     /**

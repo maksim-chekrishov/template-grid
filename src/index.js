@@ -4,8 +4,8 @@ var TemplateGrid = require('./template-grid/template-grid');
 var $ = require('jquery');
 require('./template-grid/template-grid-plugin')($);
 
-var GridColumn = require('./template-grid/data-objects/template-grid-column');
-var GridOptions = require('./template-grid/data-objects/template-grid-options');
+var GridColumn = require('./template-grid/data-objects/column');
+var GridOptions = require('./template-grid/data-objects/grid-options');
 
 var dataService = {
     getFromGlobal: function() {

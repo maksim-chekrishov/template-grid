@@ -5,8 +5,8 @@
 block rows
     div(class=buildElementClass('header'), style= getElementStyle('header'))
         for col in columns
-            div(class=buildElementClass('header-cell') + ' ' + grid.strategy.buildColumnCellClass(col),
+            div(class=buildElementClass('header-cell', col),
             style=grid.strategy.buildCellStyle(col) + ' ' + getElementStyle('header-cell'),
             data-datafield=col.dataField)
-                div(class=buildElementClass('header-cell-content'),
+                div(class=buildElementClass('header-cell-content', col),
                 style=getElementStyle('header-cell-content'))=col.text
