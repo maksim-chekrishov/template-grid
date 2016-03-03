@@ -3,7 +3,7 @@
 block rows
     div(class=grid.buildElementClass('header'), style= grid.getElementStyle('header'))
         for col in columns
-            div(class=grid.buildElementClass('header-cell') + ' ' + grid.buildColumnHeaderClasses(col),
+            div(class=grid.buildElementClass('header-cell') + ' ' + grid.strategy.buildColumnCellClass(col),
                 style=grid.buildCellStyle(col) + ' ' + grid.getElementStyle('header-cell'),
                 data-datafield=col.dataField)
                 div(class=grid.buildElementClass('header-cell-content'),

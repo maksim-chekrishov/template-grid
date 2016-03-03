@@ -145,11 +145,11 @@ initGrid();
 
 function initGrid() {
     var gridColumns = [
-        new GridColumn({text: 'Название', dataField: 'title', width: 100}),
-        new GridColumn({text: 'Комлектация', dataField: 'completionTitle'}),
         new GridColumn({text: 'Топливо', dataField: 'fuelType', sortable: false, formatter: fuelTypeFormatter}),
         new GridColumn({text: 'Привод', dataField: 'drive', formatter: driveFormatter}),
         new GridColumn({text: 'Расход топлива л/100км', dataField: 'fuel'}),
+        new GridColumn({text: 'Название', dataField: 'title', width: 100}),
+        new GridColumn({text: 'Комлектация', dataField: 'completionTitle'}),
         new GridColumn({text: 'Цена, руб.', dataField: 'price'})
     ];
 
@@ -157,7 +157,7 @@ function initGrid() {
         source: dataService.getFromGlobal('catalogDetails.modifications'),
         columns: gridColumns,
         customBlockClass: 'modifications-grid',
-        group: ['drive', 'fuel', 'price']
+        group: ['fuelType', 'drive', 'fuel']
     });
 
     var modificationsGrid = $('#grid')

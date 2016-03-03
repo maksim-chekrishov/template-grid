@@ -8,6 +8,7 @@ var _ = require('underscore');
 var $ = require('jquery');
 var GridOptions = require('./template-grid-options');
 var TemplateGridCell = require('./template-grid-cell');
+var TemplateGridOptions = require('./template-grid-options');
 
 /**
  * Abstract class for grid strategies
@@ -15,7 +16,7 @@ var TemplateGridCell = require('./template-grid-cell');
  * @param {TemplateGrid} context - template grid instance
  * @constructor
  */
-function TemplateGridAbstractStrategy(context, gridComponentsFactory) {
+function AbstractStrategy(context, gridComponentsFactory) {
     this.context = context;
     this.gridComponentsFactory = gridComponentsFactory || this.gridComponentsFactory;
 
@@ -27,7 +28,12 @@ function virtualMethod() {
     console.warn('TemplateGridAbstractStrategy: virtual method should be overwritten at child class')
 }
 
-_.extend(TemplateGridAbstractStrategy.prototype, {
+AbstractStrategy.ColumnCellClass = {
+    SORTABLE: '_sortable',
+    SORTED_ASC: '_sorted-asc',
+    SORTED_DESC: '_sorted-desc'
+}
+_.extend(AbstractStrategy.prototype, {
     /**
      * Header template
      *
@@ -57,6 +63,27 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
      *
      */
     initInternalData: virtualMethod,
+
+    /**
+     * Build column cell classes
+     *
+     * @param {GridColumn} columnOptions
+     */
+    buildColumnCellClass: function(columnOptions) {
+        var classes = [];
+        var options = this.context.options;
+
+        options.sortable && columnOptions.sortable && classes.push(AbstractStrategy.ColumnCellClass.SORTABLE);
+        if (options.sortable && options.sortColumn == columnOptions.dataField) {
+            options.sortDirection === TemplateGridOptions.SortDirection.DESC
+                ? classes.push(AbstractStrategy.ColumnCellClass.SORTED_DESC)
+                : classes.push(AbstractStrategy.ColumnCellClass.SORTED_ASC);
+        }
+
+        return classes.join(' ');
+    },
+
+
 
     /**
      * Render grid header
@@ -172,4 +199,4 @@ _.extend(TemplateGridAbstractStrategy.prototype, {
     }
 });
 
-module.exports = TemplateGridAbstractStrategy;
+module.exports = AbstractStrategy;

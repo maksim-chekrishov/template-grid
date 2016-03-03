@@ -1,8 +1,7 @@
 - var columns = grid.options.columns;
 
-
 for rowData in rowsData
     div(class=grid.buildElementClass('row'), style=grid.getElementStyle('row'))
         for col in columns
             div(class=grid.buildElementClass('cell'), style=grid.buildCellStyle(col)+ ' ' + grid.getElementStyle('cell'))
-                div(class=grid.buildElementClass('cell-content'), style=grid.getElementStyle('cell-content'))=rowData[col.dataField].text
+                div(class=grid.buildElementClass('cell-content') , style=grid.getElementStyle('cell-content'))=rowData[col.dataField].text

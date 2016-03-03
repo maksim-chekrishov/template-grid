@@ -44,12 +44,6 @@ TemplateGrid.ElementStyle = {
     'group-header-content': 'text-overflow: ellipsis; overflow: hidden;'
 }
 
-TemplateGrid.ColumnHeaderClass = {
-    SORTABLE: '_sortable',
-    SORTED_ASC: '_sorted-asc',
-    SORTED_DESC: '_sorted-desc'
-}
-
 _.extend(TemplateGrid.prototype, {
     MIN_COLUMN_WIDTH: 10,
 
@@ -87,25 +81,6 @@ _.extend(TemplateGrid.prototype, {
 
     warn: function(message) {
         console.warn('TemplateGrid: ' + message);
-    },
-
-    /**
-     * Build column header class
-     *
-     * @param {GridColumn} columnOptions
-     */
-    buildColumnHeaderClasses: function(columnOptions) {
-        var classes = [];
-        var options = this.options;
-
-        this.options.sortable && columnOptions.sortable && classes.push(TemplateGrid.ColumnHeaderClass.SORTABLE);
-        if (options.sortable && options.sortColumn == columnOptions.dataField) {
-            options.sortDirection === TemplateGridOptions.SortDirection.DESC
-                ? classes.push(TemplateGrid.ColumnHeaderClass.SORTED_DESC)
-                : classes.push(TemplateGrid.ColumnHeaderClass.SORTED_ASC);
-        }
-
-        return classes.join(' ');
     },
 
     /**
