@@ -32,7 +32,8 @@ function virtualMethod() {
 AbstractStrategy.ColumnCellClass = {
     SORTABLE: '_sortable',
     SORTED_ASC: '_sorted-asc',
-    SORTED_DESC: '_sorted-desc'
+    SORTED_DESC: '_sorted-desc',
+    GROUPABLE: '_groupable'
 }
 
 _.extend(AbstractStrategy.prototype, {
@@ -145,11 +146,17 @@ _.extend(AbstractStrategy.prototype, {
         var classes = [];
         var options = this.context.options;
 
+        // sorting modificators
         options.sortable && column.sortable && classes.push(AbstractStrategy.ColumnCellClass.SORTABLE);
         if (options.sortable && options.sortColumn == column.dataField) {
             options.sortDirection === GridOptions.SortDirection.DESC
                 ? classes.push(AbstractStrategy.ColumnCellClass.SORTED_DESC)
                 : classes.push(AbstractStrategy.ColumnCellClass.SORTED_ASC);
+        }
+
+        // grouping modificators
+        if (options.group && options.group.indexOf(column.dataField) !== -1) {
+            classes.push(AbstractStrategy.ColumnCellClass.GROUPABLE);
         }
 
         return classes.join(' ');
