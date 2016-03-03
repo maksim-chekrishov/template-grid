@@ -21,8 +21,8 @@ _.extend(ComponentsFactory.prototype, {
     },
 
     strategyByName: {
-        groups: require('./template-grid-groups-strategy'),
-        rows: require('./template-grid-rows-strategy')
+        groups: require('./strategies/groups-strategy'),
+        rows: require('./strategies/rows-strategy')
     },
 
     resolveTemplate: function(name) {

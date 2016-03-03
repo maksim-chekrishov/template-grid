@@ -5,12 +5,17 @@
  */
 
 var _ = require('underscore');
-var TemplateGridAbstractStrategy = require('./template-grid-abstract-strategy');
-var utils = require('./template-grid-utils');
-var GridGroup = require('./template-grid-group');
-var GridOptions = require('./template-grid-options');
+var TemplateGridAbstractStrategy = require('./abstract-strategy');
+var utils = require('../utils');
+var GridGroup = require('../data-objects/template-grid-group');
+var GridOptions = require('../data-objects/template-grid-options');
 var $ = require('jquery');
 
+/**
+ * Inherited from AbstractStrategy
+ *
+ * @constructor
+ */
 function TemplateGridGroupsStrategy() {
     TemplateGridGroupsStrategy.super.constructor.apply(this, arguments);
 

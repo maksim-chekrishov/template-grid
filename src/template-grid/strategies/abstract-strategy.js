@@ -6,10 +6,9 @@
 
 var _ = require('underscore');
 var $ = require('jquery');
-var GridOptions = require('./template-grid-options');
-var TemplateGridCell = require('./template-grid-cell');
-var TemplateGridOptions = require('./template-grid-options');
-var utils = require('./template-grid-utils');
+var GridOptions = require('../data-objects/template-grid-options');
+var TemplateGridCell = require('../data-objects/template-grid-cell');
+var utils = require('../utils');
 
 /**
  * Abstract class for grid strategies
@@ -19,10 +18,11 @@ var utils = require('./template-grid-utils');
  */
 function AbstractStrategy(context, gridComponentsFactory) {
     this.context = context;
-    this.gridComponentsFactory = gridComponentsFactory || this.gridComponentsFactory;
 
-    this.rowsTemplate = gridComponentsFactory.resolveTemplate('rows');
-    this.headerTemplate = gridComponentsFactory.resolveTemplate('header');
+    this.gridComponentsFactory = gridComponentsFactory;
+
+    this.rowsTemplate = this.gridComponentsFactory.resolveTemplate('rows');
+    this.headerTemplate = this.gridComponentsFactory.resolveTemplate('header');
 }
 
 function virtualMethod() {
@@ -144,7 +144,7 @@ _.extend(AbstractStrategy.prototype, {
 
         options.sortable && column.sortable && classes.push(AbstractStrategy.ColumnCellClass.SORTABLE);
         if (options.sortable && options.sortColumn == column.dataField) {
-            options.sortDirection === TemplateGridOptions.SortDirection.DESC
+            options.sortDirection === GridOptions.SortDirection.DESC
                 ? classes.push(AbstractStrategy.ColumnCellClass.SORTED_DESC)
                 : classes.push(AbstractStrategy.ColumnCellClass.SORTED_ASC);
         }

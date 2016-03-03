@@ -3,11 +3,8 @@
 /**
  * Created by m.chekryshov on 12.02.16.
  */
-var utils = require('./template-grid-utils');
-var RowsStrategy = require('./template-grid-rows-strategy');
-var GroupsStrategy = require('./template-grid-groups-strategy');
-var TemplateGridCell = require('./template-grid-cell');
-var TemplateGridOptions = require('./template-grid-options');
+var utils = require('./utils');
+var TemplateGridOptions = require('./data-objects/template-grid-options');
 var _ = require('underscore');
 var DefaultComponentsFactory = require('./template-grid-components-factory');
 
@@ -24,11 +21,9 @@ function TemplateGrid($containerEl, options, gridComponentsFactory) {
     this.columnsIndexedByDataField = options.indexColumnsByDataField();
     this.gridComponentsFactory = gridComponentsFactory || this.gridComponentsFactory;
 
-    this.strategy = this.gridComponentsFactory.resolveStrategy(this);
+    var Strategy =  this.gridComponentsFactory.resolveStrategy(this);
 
-    this.strategy = this.hasGroups()
-        ? new GroupsStrategy(this, this.gridComponentsFactory)
-        : new RowsStrategy(this, this.gridComponentsFactory);
+    this.strategy = new Strategy(this, this.gridComponentsFactory);
 }
 
 _.extend(TemplateGrid.prototype, {

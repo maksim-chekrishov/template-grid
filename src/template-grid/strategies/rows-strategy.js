@@ -4,11 +4,16 @@
  * Created by m.chekryshov on 16.02.16.
  */
 
-var TemplateGridAbstractStrategy = require('./template-grid-abstract-strategy');
-var utils = require('./template-grid-utils');
-var TemplateGridOptions = require('./template-grid-options');
+var TemplateGridAbstractStrategy = require('./abstract-strategy');
+var utils = require('../utils');
+var TemplateGridOptions = require('../data-objects/template-grid-options');
 var _ = require('underscore');
 
+/**
+ * Inherited from AbstractStrategy
+ *
+ * @constructor
+ */
 function TemplateGridRowsStrategy() {
     TemplateGridRowsStrategy.super.constructor.apply(this, arguments);
 }
