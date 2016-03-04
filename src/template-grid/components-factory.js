@@ -4,9 +4,11 @@
  * Created by m.chekryshov on 02.03.16.
  */
 var _ = require('underscore');
+var $ = require('jquery');
 
 function ComponentsFactory(options) {
-    _.extend(this, options);
+    // deep extend
+    $.extend(true, this, options);
 };
 
 _.extend(ComponentsFactory.prototype, {

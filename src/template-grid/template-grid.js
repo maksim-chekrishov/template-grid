@@ -54,21 +54,6 @@ _.extend(TemplateGrid.prototype, {
             .css('width', '100%')
             .addClass(this.strategy.buildElementClass())
             .empty();
-    },
-
-    /**
-     * Default column formatter,
-     * will be applied for columns without custom formatter
-     *
-     * @param {*} cellData
-     * @param {Object} [rawRowData]
-     * @returns {string}
-     */
-    defaultColumnFormatter: function(cellData, rawRowData) {
-        var str = cellData + '';
-        return str.length
-            ? str
-            : this.options.noDataText;
     }
 });
 

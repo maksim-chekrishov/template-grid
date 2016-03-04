@@ -259,13 +259,20 @@ _.extend(AbstractStrategy.prototype, {
         var _this = this;
 
         return _.mapObject(_this.context.columnsIndexedByDataField, function(columnOptions, dataField) {
-            var formatter = columnOptions.formatter || _this.context.defaultColumnFormatter;
             var value = rawRowData[dataField];
+
+            var text = value;
+
+            _.each([columnOptions.formatter, _this.defaultColumnFormatter], function(formatter) {
+                if (formatter) {
+                    text = formatter.call(_this, text);
+                }
+            });
 
             return new TemplateGridCell({
                 value: value,
                 dataField: dataField,
-                text: formatter(value, rawRowData)
+                text: text
             });
         });
     },
@@ -318,6 +325,21 @@ _.extend(AbstractStrategy.prototype, {
             grid: this.context,
             rowsData: this.internalData
         }));
+    },
+
+    /**
+     * Default column formatter,
+     * will be applied for columns without custom formatter
+     *
+     * @param {*} cellData
+     * @param {Object} [rawRowData]
+     * @returns {string}
+     */
+    defaultColumnFormatter: function(cellData, rawRowData) {
+        var str = cellData + '';
+        return str === 'null' || str === 'undefined'
+            ? this.context.options.noDataText
+            : str;
     }
 });
 
