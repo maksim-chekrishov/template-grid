@@ -73,12 +73,12 @@ _.extend(AbstractStrategy.prototype, {
         '_default': '',
         '_root': 'width:100%',
         'header': 'width:100%',
-        'header-cell-content': 'text-overflow: ellipsis; overflow: hidden;',
+        'header-cell-content': 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;',
         'header-cell': 'display:inline-block',
         'cell': 'display:inline-block',
         'group-header-cell': 'display:inline-block',
-        'cell-content': 'text-overflow: ellipsis; overflow: hidden;',
-        'group-header-content': 'text-overflow: ellipsis; overflow: hidden;'
+        'cell-content': 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;',
+        'group-header-content': 'text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'
     },
 
     /**
