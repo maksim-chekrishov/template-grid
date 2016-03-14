@@ -52,6 +52,7 @@ _.extend(GridColumn.prototype, {
    * for example 90 => '90 км'
    * Can return raw html
    *
+   * function (html, rawRowData){return '<br>' };
    *
    * @param {Object} cellValue
    * @param {Object} rawRowData

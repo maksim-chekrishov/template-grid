@@ -262,7 +262,7 @@ _.extend(AbstractStrategy.prototype, {
 
             _.each([columnOptions.renderer, _this.defaultColumnRenderer], function(renderer) {
                 if (renderer) {
-                    html = renderer.call(_this, html);
+                    html = renderer.call(_this, html, rawRowData);
                 }
             });
 
