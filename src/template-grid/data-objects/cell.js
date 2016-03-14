@@ -19,7 +19,7 @@ _.extend(TemplateGridCell.prototype, {
    * Cell text
    *
    */
-  text: null,
+  html: null,
   /**
    * Origin value
    *

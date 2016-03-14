@@ -5,4 +5,4 @@ div(class=buildElementClass('group-header'), style=getElementStyle('group-header
     for col in  grid.options.columns
         div(class=buildElementClass('group-header-cell',col), style=grid.strategy.buildCellStyle(col) + ' ' + getElementStyle('group-header-cell'))
             div(class=buildElementClass('group-header-content',col), style=getElementStyle('group-header-content'))
-                = grid.options.group.indexOf(col.dataField) !== -1 ? groupData.rows[0][col.dataField].text : ''
+                != grid.options.group.indexOf(col.dataField) !== -1 ? groupData.rows[0][col.dataField].html : ''

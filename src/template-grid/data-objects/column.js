@@ -20,11 +20,11 @@ _.extend(GridColumn.prototype, {
   textAlign: 'center',
 
   /**
-   * Header text.
+   * Header html or text.
    *
    * @type {string}
    */
-  text: null,
+  html: null,
 
   /**
    * Name of data field
@@ -50,12 +50,20 @@ _.extend(GridColumn.prototype, {
   /**
    * Function to customize cell format
    * for example 90 => '90 км'
+   * Can return raw html
+   *
    *
    * @param {Object} cellValue
    * @param {Object} rawRowData
    * @returns {string}
    */
-  formatter: null
+  renderer: null,
+
+  /**
+   * Callback
+   * example: function (event, rowData){}
+   */
+  onCellClick: null
 });
 
 module.exports = GridColumn;

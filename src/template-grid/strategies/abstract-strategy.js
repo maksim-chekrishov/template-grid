@@ -258,18 +258,18 @@ _.extend(AbstractStrategy.prototype, {
         return _.mapObject(_this.context.columnsIndexedByDataField, function(columnOptions, dataField) {
             var value = rawRowData[dataField];
 
-            var text = value;
+            var html = value;
 
-            _.each([columnOptions.formatter, _this.defaultColumnFormatter], function(formatter) {
-                if (formatter) {
-                    text = formatter.call(_this, text);
+            _.each([columnOptions.renderer, _this.defaultColumnRenderer], function(renderer) {
+                if (renderer) {
+                    html = renderer.call(_this, html);
                 }
             });
 
             return new TemplateGridCell({
                 value: value,
                 dataField: dataField,
-                text: text
+                html: html
             });
         });
     },
@@ -322,17 +322,19 @@ _.extend(AbstractStrategy.prototype, {
             grid: this.context,
             rowsData: this.internalData
         }));
+
+        this.bindContentActions();
     },
 
     /**
-     * Default column formatter,
+     * Default column renderer,
      * will be applied for columns without custom formatter
      *
      * @param {*} cellData
      * @param {Object} [rawRowData]
      * @returns {string}
      */
-    defaultColumnFormatter: function(cellData, rawRowData) {
+    defaultColumnRenderer: function(cellData, rawRowData) {
         var str = cellData + '';
         return str === 'null' || str === 'undefined'
             ? this.context.options.noDataText

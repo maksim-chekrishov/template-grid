@@ -9,4 +9,4 @@ block rows
             style=grid.strategy.buildCellStyle(col) + ' ' + getElementStyle('header-cell'),
             data-datafield=col.dataField)
                 div(class=buildElementClass('header-cell-content', col),
-                style=getElementStyle('header-cell-content'))=col.text
+                style=getElementStyle('header-cell-content'))!=col.html

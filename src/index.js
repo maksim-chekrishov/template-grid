@@ -145,12 +145,12 @@ initGrid();
 
 function initGrid() {
     var gridColumns = [
-        new GridColumn({text: 'Топливо', dataField: 'fuelType', sortable: false, formatter: fuelTypeFormatter}),
-        new GridColumn({text: 'Привод', dataField: 'drive', formatter: driveFormatter}),
-        new GridColumn({text: 'Расход топлива л/100км', dataField: 'fuel'}),
-        new GridColumn({text: 'Название', dataField: 'title', width: 100}),
-        new GridColumn({text: 'Комлектация', dataField: 'completionTitle'}),
-        new GridColumn({text: 'Цена, руб.', dataField: 'price'})
+        new GridColumn({html: 'Топливо', dataField: 'fuelType', sortable: false, renderer: fuelTypeRenderer}),
+        new GridColumn({html: 'Привод', dataField: 'drive', renderer: driveRenderer}),
+        new GridColumn({html: 'Расход топлива л/100км', dataField: 'fuel'}),
+        new GridColumn({html: 'Название', dataField: 'title', width: 100}),
+        new GridColumn({html: 'Комлектация', dataField: 'completionTitle'}),
+        new GridColumn({html: 'Цена, руб.', dataField: 'price'})
     ];
 
     var gridOptions = new GridOptions({
@@ -167,13 +167,14 @@ function initGrid() {
     modificationsGrid.render();
 }
 
-function fuelTypeFormatter(cellValue) {
-    return cellValue
-        ? FUEL[cellValue - 1]
-        : gridOptions.noDataText;
+function fuelTypeRenderer(cellValue) {
+//    return cellValue
+//        ? FUEL[cellValue - 1]
+//        : gridOptions.noDataText;
+    return '<a href="index.js">dasdasd</a>';
 }
 
-function driveFormatter(cellValue) {
+function driveRenderer(cellValue) {
     return cellValue
         ? DRIVE[cellValue - 1]
         : gridOptions.noDataText;
